@@ -12,16 +12,18 @@ perl_version '5.010';
 
 build_requires 'Test::WWW::Mechanize::Catalyst';
 build_requires 'Test::Perl::Critic';
+build_requires 'Test::Deep';
 
 author_requires 'Module::Install::WriteAll';
 #author_requires 'Module::Install::Catalyst';
 
 #requires 'HTML::FromANSI';
-requires 'Tapper::Cmd'           => "3.000001";
-requires 'Tapper::Config'        => "3.000001";
-requires 'Tapper::Schema'        => "3.000001";
-requires 'Tapper::TAP::Harness'  => "3.000001";
-requires 'Tapper::Test'          => "3.000001";
+requires 'Tapper::Cmd'           => "3.000002";
+requires 'Tapper::Config'        => "3.000002";
+requires 'Tapper::Schema'        => "3.000002";
+requires 'Tapper::Model'         => "3.000002";
+requires 'Tapper::TAP::Harness'  => "3.000002";
+requires 'Tapper::Test'          => "3.000002";
 requires 'Catalyst::Action::RenderView';
 requires 'Catalyst::Controller::BindLex';
 requires 'Catalyst::Controller::HTML::FormFu';
@@ -40,6 +42,7 @@ requires 'Data::DPath';
 requires 'DateTime::Format::DateParse';
 requires 'DateTime::Format::Natural';
 requires 'DateTime::Format::W3CDTF';
+requires 'DateTime::Format::Strptime';
 requires 'FCGI';
 requires 'FindBin';
 requires 'File::Find';
@@ -56,7 +59,8 @@ requires 'TAP::Parser';
 requires 'Test::Fixture::DBIC::Schema';
 requires 'Test::More';
 requires 'XML::Feed';
-requires 'YAML';
+requires 'YAML' => "0.72";
+requires 'YAML::Syck' => "1.17";
 
 catalyst;
 
