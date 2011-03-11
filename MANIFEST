@@ -1,6 +1,4 @@
 ChangeLog
-Changes
-inc/File/Copy/Recursive.pm
 inc/Module/AutoInstall.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorRequires.pm
@@ -36,7 +34,6 @@ lib/Tapper/Reports/Web/Controller/Tapper/Start.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testplan.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testplan/Add.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testplan/Id.pm
-lib/Tapper/Reports/Web/Controller/Tapper/Testplan/OSRC.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testplan/Taskjuggler.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testruns.pm
 lib/Tapper/Reports/Web/Controller/Tapper/Testruns/Date.pm
@@ -51,7 +48,6 @@ lib/Tapper/Reports/Web/Util/Testrun.pm
 lib/Tapper/Reports/Web/View/Mason.pm
 LICENSE
 LICENSE_webdesign
-Makefile.old
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
@@ -201,7 +197,6 @@ root/tapper/testplan/autohandler
 root/tapper/testplan/id/index.mas
 root/tapper/testplan/index.mas
 root/tapper/testplan/navi.mas
-root/tapper/testplan/osrc/index.mas
 root/tapper/testplan/taskjuggler/index.mas
 root/tapper/testplan/testplan_overview.mas
 root/tapper/testruns/add_usecase.mas
@@ -252,7 +247,6 @@ t/fixtures/reportsdb/report.yml
 t/fixtures/reportsdb/report_util.yml
 t/fixtures/testrundb/testruns.yml
 t/model_ReportsDB.t
-t/tapper_schema_testrundb_test.sqlite-journal
 t/util-tapper-testrun.t
 t/util_Tapper-Filter.t
 t/view_Mason.t
