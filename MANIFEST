@@ -86,6 +86,7 @@ root/mpc/kernel_build.mpc
 root/mpc/kernel_reboot.mpc
 root/mpc/kernel_reboot.yml
 root/mpc/oprofile.mpc
+root/mpc/tests.yml
 root/tapper/autohandler
 root/tapper/builder/autohandler
 root/tapper/builder/new_create.mas
