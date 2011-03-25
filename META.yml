@@ -57,6 +57,7 @@ requires:
   Tapper::Schema: 3.000002
   Tapper::TAP::Harness: 3.000002
   Tapper::Test: 3.000002
+  Tapper::Testplan: 3.000005
   Test::Fixture::DBIC::Schema: 0
   Test::More: 0
   XML::Feed: 0
@@ -68,4 +69,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Reports-Web
   repository: git://github.com/amd/Tapper-Reports-Web.git
-version: 3.000005
+version: 3.000006
