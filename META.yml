@@ -1,6 +1,7 @@
 ---
 abstract: 'Tapper - Frontend web application based on Catalyst'
 author:
+  - 'Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.'
   - 'AMD OSRC Tapper Team <tapper@amd64.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
@@ -10,7 +11,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.00'
 license: freebsd
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -51,13 +52,13 @@ requires:
   Pod::Usage: 0
   TAP::Formatter::HTML: 0.04
   TAP::Parser: 0
-  Tapper::Cmd: 3.000002
-  Tapper::Config: 3.000002
-  Tapper::Model: 3.000002
-  Tapper::Schema: 3.000002
-  Tapper::TAP::Harness: 3.000002
-  Tapper::Test: 3.000002
-  Tapper::Testplan: 3.000005
+  Tapper::Cmd: 3.000010
+  Tapper::Config: 3.000010
+  Tapper::Model: 3.000010
+  Tapper::Schema: 3.000010
+  Tapper::TAP::Harness: 3.000010
+  Tapper::Test: 3.000010
+  Tapper::Testplan: 3.000010
   Test::Fixture::DBIC::Schema: 0
   Test::More: 0
   XML::Feed: 0
@@ -69,4 +70,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Reports-Web
   repository: git://github.com/amd/Tapper-Reports-Web.git
-version: 3.000006
+version: 3.000010
