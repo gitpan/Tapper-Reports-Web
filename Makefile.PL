@@ -1,75 +1,95 @@
+
 use strict;
 use warnings;
 
-use inc::Module::Install;
+use 5.010;
 
-name     'Tapper-Reports-Web';
-all_from 'lib/Tapper/Reports/Web.pm';
-author   'AMD OSRC Tapper Team <tapper@amd64.org>';
-license  'freebsd';
+use ExtUtils::MakeMaker 6.30;
 
-perl_version '5.010';
 
-build_requires 'Test::WWW::Mechanize::Catalyst';
-build_requires 'Test::Perl::Critic';
-build_requires 'Test::Deep';
 
-author_requires 'Module::Install::WriteAll';
-#author_requires 'Module::Install::Catalyst';
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "Tapper - Frontend web application based on Catalyst",
+  "AUTHOR" => "AMD OSRC Tapper Team <tapper\@amd64.org>",
+  "BUILD_REQUIRES" => {
+    "Tapper::Schema::TestTools" => 0,
+    "Test::Deep" => 0,
+    "Test::Fixture::DBIC::Schema" => 0,
+    "Test::More" => 0,
+    "Test::WWW::Mechanize::Catalyst" => 0
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
+  },
+  "DISTNAME" => "Tapper-Reports-Web",
+  "EXE_FILES" => [],
+  "LICENSE" => "open_source",
+  "NAME" => "Tapper::Reports::Web",
+  "PREREQ_PM" => {
+    "Catalyst" => 0,
+    "Catalyst::Controller" => 0,
+    "Catalyst::Controller::BindLex" => 0,
+    "Catalyst::Controller::HTML::FormFu" => 0,
+    "Catalyst::Model::DBIC::Schema" => 0,
+    "Catalyst::Runtime" => 0,
+    "Catalyst::View::Mason" => 0,
+    "Class::C3::Adopt::NEXT" => 0,
+    "Cwd" => 0,
+    "Data::DPath" => 0,
+    "Data::Dumper" => 0,
+    "DateTime" => 0,
+    "DateTime::Format::DateParse" => 0,
+    "DateTime::Format::Natural" => 0,
+    "File::Basename" => 0,
+    "File::Find::Rule" => 0,
+    "File::Path" => 0,
+    "File::stat" => 0,
+    "HTML::FromANSI" => 0,
+    "Hash::Merge" => 0,
+    "Hash::Merge::Simple" => 0,
+    "Moose" => 0,
+    "Perl6::Junction" => 0,
+    "Set::Intersection" => 0,
+    "Tapper::Cmd::Precondition" => 0,
+    "Tapper::Cmd::Testrun" => 0,
+    "Tapper::Config" => 0,
+    "Tapper::Model" => 0,
+    "Tapper::Testplan::Plugins::Taskjuggler" => 0,
+    "Tapper::Testplan::Reporter" => 0,
+    "Template" => 0,
+    "XML::Feed" => 0,
+    "YAML" => 0,
+    "YAML::Syck" => 0,
+    "base" => 0,
+    "common::sense" => 0,
+    "parent" => 0,
+    "strict" => 0,
+    "warnings" => 0
+  },
+  "VERSION" => "4.0.1",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
 
-#requires 'HTML::FromANSI';
-requires 'Tapper::Cmd' => "3.000010";
-requires 'Tapper::Config' => "3.000010";
-requires 'Tapper::Schema' => "3.000010";
-requires 'Tapper::Model' => "3.000010";
-requires 'Tapper::TAP::Harness' => "3.000010";
-requires 'Tapper::Test' => "3.000010";
-requires 'Tapper::Testplan' => "3.000010";
-requires 'Catalyst::Action::RenderView';
-requires 'Catalyst::Controller::BindLex';
-requires 'Catalyst::Controller::HTML::FormFu';
-requires 'Catalyst::Model::DBIC::Schema';
-requires 'Catalyst::Plugin::ConfigLoader';
-requires 'Catalyst::Plugin::Session' => "0.31";
-requires 'Catalyst::Plugin::Session::State::Cookie' => "0.17";
-requires 'Catalyst::Plugin::Session::Store::File';
-requires 'Catalyst::Plugin::Static::Simple';
-requires 'Catalyst::Runtime'     => '5.80032';
-requires 'Catalyst::Test';
-requires 'Catalyst::View::Mason' => '0.18';
-requires 'Class::C3::Adopt::NEXT';
-requires 'common::sense';
-requires 'Data::DPath';
-requires 'DateTime::Format::DateParse';
-requires 'DateTime::Format::Natural';
-requires 'DateTime::Format::W3CDTF';
-requires 'DateTime::Format::Strptime';
-requires 'FCGI';
-requires 'FindBin';
-requires 'File::Find';
-requires 'File::Find::Rule';
-requires 'File::Copy::Recursive';
-requires 'Getopt::Long';
-requires 'Data::DPath'           => "0.42";
-requires 'TAP::Parser';
-requires 'Hash::Merge';
-requires 'HTML::FormFu';
-requires 'parent';
-requires 'Pod::Usage';
-requires 'TAP::Formatter::HTML'  => '0.04';
-requires 'TAP::Parser';
-requires 'Test::Fixture::DBIC::Schema';
-requires 'Test::More';
-requires 'XML::Feed';
-requires 'YAML' => "0.72";
-requires 'YAML::Syck' => "1.17";
 
-catalyst;
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
 
-install_script glob('script/*.pl');
-auto_install;
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
 
-repository 'git://github.com/amd/Tapper-Reports-Web.git';
-bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Reports-Web';
+WriteMakefile(%WriteMakefileArgs);
 
-WriteAll;
+
+

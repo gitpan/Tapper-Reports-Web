@@ -1,73 +1,221 @@
 ---
 abstract: 'Tapper - Frontend web application based on Catalyst'
 author:
-  - 'Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.'
   - 'AMD OSRC Tapper Team <tapper@amd64.org>'
 build_requires:
-  ExtUtils::MakeMaker: 6.42
+  Tapper::Schema::TestTools: 0
   Test::Deep: 0
-  Test::Perl::Critic: 0
+  Test::Fixture::DBIC::Schema: 0
+  Test::More: 0
   Test::WWW::Mechanize::Catalyst: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.42
-distribution_type: module
-generated_by: 'Module::Install version 1.00'
-license: freebsd
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300016, CPAN::Meta::Converter version 2.120921'
+license: open_source
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
 name: Tapper-Reports-Web
-no_index:
-  directory:
-    - inc
-    - t
-    - xt
 requires:
-  Catalyst::Action::RenderView: 0
+  Catalyst: 0
+  Catalyst::Controller: 0
   Catalyst::Controller::BindLex: 0
   Catalyst::Controller::HTML::FormFu: 0
   Catalyst::Model::DBIC::Schema: 0
-  Catalyst::Plugin::ConfigLoader: 0
-  Catalyst::Plugin::Session: 0.31
-  Catalyst::Plugin::Session::State::Cookie: 0.17
-  Catalyst::Plugin::Session::Store::File: 0
-  Catalyst::Plugin::Static::Simple: 0
-  Catalyst::Runtime: 5.80032
-  Catalyst::Test: 0
-  Catalyst::View::Mason: 0.18
+  Catalyst::Runtime: 0
+  Catalyst::View::Mason: 0
   Class::C3::Adopt::NEXT: 0
-  Data::DPath: 0.42
+  Cwd: 0
+  Data::DPath: 0
+  Data::Dumper: 0
+  DateTime: 0
   DateTime::Format::DateParse: 0
   DateTime::Format::Natural: 0
-  DateTime::Format::Strptime: 0
-  DateTime::Format::W3CDTF: 0
-  FCGI: 0
-  File::Copy::Recursive: 0
-  File::Find: 0
+  File::Basename: 0
   File::Find::Rule: 0
-  FindBin: 0
-  Getopt::Long: 0
-  HTML::FormFu: 0
+  File::Path: 0
+  File::stat: 0
+  HTML::FromANSI: 0
   Hash::Merge: 0
-  Pod::Usage: 0
-  TAP::Formatter::HTML: 0.04
-  TAP::Parser: 0
-  Tapper::Cmd: 3.000010
-  Tapper::Config: 3.000010
-  Tapper::Model: 3.000010
-  Tapper::Schema: 3.000010
-  Tapper::TAP::Harness: 3.000010
-  Tapper::Test: 3.000010
-  Tapper::Testplan: 3.000010
-  Test::Fixture::DBIC::Schema: 0
-  Test::More: 0
+  Hash::Merge::Simple: 0
+  Moose: 0
+  Perl6::Junction: 0
+  Set::Intersection: 0
+  Tapper::Cmd::Precondition: 0
+  Tapper::Cmd::Testrun: 0
+  Tapper::Config: 0
+  Tapper::Model: 0
+  Tapper::Testplan::Plugins::Taskjuggler: 0
+  Tapper::Testplan::Reporter: 0
+  Template: 0
   XML::Feed: 0
-  YAML: 0.72
-  YAML::Syck: 1.17
+  YAML: 0
+  YAML::Syck: 0
+  base: 0
   common::sense: 0
   parent: 0
-  perl: 5.10.0
+  perl: 5.010
+  strict: 0
+  warnings: 0
 resources:
-  bugtracker: http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Reports-Web
+  bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Tapper-Reports-Web
+  homepage: http://metacpan.org/release/Tapper-Reports-Web
   repository: git://github.com/amd/Tapper-Reports-Web.git
-version: 3.000010
+version: 4.0.1
+x_Dist_Zilla:
+  plugins:
+    -
+      class: Dist::Zilla::Plugin::GatherDir
+      name: '@AMD/GatherDir'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::PruneCruft
+      name: '@AMD/PruneCruft'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::ManifestSkip
+      name: '@AMD/ManifestSkip'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::MetaYAML
+      name: '@AMD/MetaYAML'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::Readme
+      name: '@AMD/Readme'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::ExtraTests
+      name: '@AMD/ExtraTests'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::ExecDir
+      name: '@AMD/ExecDir'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::ShareDir
+      name: '@AMD/ShareDir'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::MakeMaker
+      name: '@AMD/MakeMaker'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::Manifest
+      name: '@AMD/Manifest'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::TestRelease
+      name: '@AMD/TestRelease'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::ConfirmRelease
+      name: '@AMD/ConfirmRelease'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::UploadToCPAN
+      name: '@AMD/UploadToCPAN'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::MetaConfig
+      name: '@AMD/MetaConfig'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::MetaJSON
+      name: '@AMD/MetaJSON'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::PkgVersion
+      name: '@AMD/PkgVersion'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::PodSyntaxTests
+      name: '@AMD/PodSyntaxTests'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::NoTabsTests
+      name: '@AMD/NoTabsTests'
+      version: 0.01
+    -
+      class: Dist::Zilla::Plugin::MetaResources
+      name: '@AMD/MetaResources'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::Authority
+      name: '@AMD/Authority'
+      version: 1.006
+    -
+      class: Dist::Zilla::Plugin::EOLTests
+      name: '@AMD/EOLTests'
+      version: 0.02
+    -
+      class: Dist::Zilla::Plugin::PodWeaver
+      name: '@AMD/PodWeaver'
+      version: 3.101641
+    -
+      class: Dist::Zilla::Plugin::AutoPrereqs
+      name: '@AMD/AutoPrereqs'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::CheckChangesHasContent
+      name: '@AMD/CheckChangesHasContent'
+      version: 0.005
+    -
+      class: Dist::Zilla::Plugin::NextRelease
+      name: '@AMD/NextRelease'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::Git::CheckFor::CorrectBranch
+      name: '@AMD/Git::CheckFor::CorrectBranch'
+      version: 0.004
+    -
+      class: Dist::Zilla::Plugin::Git::NextVersion
+      name: '@AMD/Git::NextVersion'
+      version: 1.121010
+    -
+      class: Dist::Zilla::Plugin::Git::Check
+      name: '@AMD/@Git/Check'
+      version: 1.121010
+    -
+      class: Dist::Zilla::Plugin::Git::Commit
+      name: '@AMD/@Git/Commit'
+      version: 1.121010
+    -
+      class: Dist::Zilla::Plugin::Git::Tag
+      name: '@AMD/@Git/Tag'
+      version: 1.121010
+    -
+      class: Dist::Zilla::Plugin::Git::Push
+      name: '@AMD/@Git/Push'
+      version: 1.121010
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':InstallModules'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':IncModules'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':TestFiles'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':ExecFiles'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':ShareFiles'
+      version: 4.300016
+    -
+      class: Dist::Zilla::Plugin::FinderCode
+      name: ':MainModule'
+      version: 4.300016
+  zilla:
+    class: Dist::Zilla::Dist::Builder
+    config:
+      is_trial: 0
+    version: 4.300016
+x_authority: cpan:AMD

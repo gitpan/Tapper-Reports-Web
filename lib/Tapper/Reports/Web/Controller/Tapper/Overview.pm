@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Overview;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Overview::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Overview::VERSION = '4.0.1';
+}
 
 use parent 'Tapper::Reports::Web::Controller::Base';
 use DateTime;
@@ -14,7 +20,7 @@ sub auto :Private
 
 
 # Filter suite list so that only recently used suites are given.
-# 
+#
 # @param suite result set - unfiltered suites
 # @param int/string       - duration
 #
@@ -22,7 +28,7 @@ sub auto :Private
 #
 sub recently_used_suites
 {
-        my ($self, $suite_rs, $duration) = @_;
+        my ($self, $c, $suite_rs, $duration) = @_;
         my $timeframe;
         if ($duration) {
                 return $suite_rs if lc($duration) eq 'all';
@@ -30,7 +36,8 @@ sub recently_used_suites
         } else {
                 $timeframe = DateTime->now->subtract(weeks => 12);
         }
-        $suite_rs  = $suite_rs->search({'reports.created_at' => {'>=' => $timeframe}});
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
+        $suite_rs  = $suite_rs->search({'reports.created_at' => {'>=' => $dtf->format_datetime($timeframe) }});
         return $suite_rs;
 }
 
@@ -41,20 +48,22 @@ sub index :Path :Args()
         my $overviews : Stash;
         given ($type){
                 when ('suite') {
-                        my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({},
-                                                                                          {join => 'reports',
-                                                                                           '+select' => ['reports.created_at'],
-                                                                                           columns   => [qw/name id/],
-                                                                                           distinct  => 1,
-                                                                                          });
-                        $suite_rs = $self->recently_used_suites($suite_rs, $options);
-                        $overviews = { map{$_->name, '/tapper/reports/suite/'.$_->id } $suite_rs->all };
+                        my %search_options = ();
+                        %search_options = ( prefetch => ['reports'] ) unless lc($options) eq "all";
+                        my $suite_rs = $c->model('ReportsDB')->resultset('Suite')->search({}, { %search_options } );
+                        $suite_rs = $self->recently_used_suites($c, $suite_rs, $options) unless lc($options) eq "all";
+                        $overviews = {};
+                        while ( my $suite = $suite_rs->next ) {
+                                $overviews->{$suite->name} = '/tapper/reports/suite/'.($suite->name =~ /[^\w\d_.-]/ ? $suite->id : $suite->name);
+                        }
+                        $c->stash->{title} = "Tapper report suites";
                 }
                 when ('host')  {
                         my $reports = $c->model('ReportsDB')->resultset('Report')->search({},
                                                                                           { columns => [ qw/machine_name/ ],
                                                                                             distinct => 1});
                         $overviews = { map{$_->machine_name, '/tapper/reports/host/'.$_->machine_name} $reports->all };
+                        $c->stash->{title} = "Tapper report hosts";
                 }
         }
 }
@@ -75,7 +84,7 @@ sub prepare_navi : Private
                                          href  => "/tapper/overview/host",
                                         },
                                        ],
-                            
+
                            },
                            {
                             title => 'Suites used in the last..',
@@ -97,7 +106,7 @@ sub prepare_navi : Private
                                          href  => "/tapper/overview/suite/12",
                                         },
                                        ],
-                            
+
                            },
                            {
                             title => 'All suites',
@@ -107,3 +116,27 @@ sub prepare_navi : Private
 }
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Overview
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
+=cut
+

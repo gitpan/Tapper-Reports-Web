@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Testruns;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::VERSION = '4.0.1';
+}
 
 use parent 'Tapper::Reports::Web::Controller::Base';
 use Cwd;
@@ -13,43 +19,51 @@ use Tapper::Cmd::Testrun;
 use Tapper::Config;
 use Tapper::Model 'model';
 use Tapper::Reports::Web::Util::Testrun;
+use Tapper::Reports::Web::Util::Filter::Testrun;
 
 use common::sense;
 ## no critic (RequireUseStrict)
 
-=head2 index
 
-Prints a list of a testruns together with their state, start time and
-end time. No options, not return values.
 
-TODO: Too many testruns, takes too long to display. Thus, we need to add
-filter facility.
-
-=cut
-
-sub index :Path :Args(0)
+sub auto :Private
 {
         my ( $self, $c ) = @_;
-        $c->res->redirect('/tapper/testruns/days/2');
+
+        $c->forward('/tapper/testruns/prepare_navi');
+}
+
+
+
+sub index :Path :Args()
+{
+        my ( $self, $c, @args ) = @_;
+
+        my $error_msg : Flash;
+
+        my $filter = Tapper::Reports::Web::Util::Filter::Testrun->new(context => $c);
+        my $filter_condition = $filter->parse_filters(\@args);
+
+        if ($filter_condition->{error}) {
+                $error_msg = join("; ", @{$filter_condition->{error}});
+                $c->res->redirect("/tapper/testruns/days/2");
+        }
+        $c->forward('/tapper/testruns/prepare_testrunlists', [ $filter_condition, $filter->requested_day ]);
         return;
 }
 
 
-=head2 get_testrun_overview
+sub get_test_list_from_precondition {
+        my ($precond) = @_;
 
-This function reads and parses all precondition of a testrun to generate
-a summary of the testrun which will then be shown as an overview. It
-returns a hash reference containing:
-* name
-* arch
-* image
-* test
+        return grep { defined } (
+                                 $precond->{testprogram}{execname},
+                                 map {
+                                      join( " ", $_->{program}, @{$_->{parameters}} )
+                                     } @{$precond->{testprogram_list}},
+                                );
+}
 
-@param testrun result object
-
-@return hash reference
-
-=cut
 
 sub get_testrun_overview : Private
 {
@@ -67,13 +81,14 @@ sub get_testrun_overview : Private
                         $retval->{name}  = $precondition->{name} || "Virtualisation Test";
                         $retval->{arch}  = $precondition->{host}->{root}{arch};
                         $retval->{image} = $precondition->{host}->{root}{image} || $precondition->{host}->{root}{name}; # can be an image or copyfile or package
-                        ($retval->{xen_package}) = grep { m!/data/bancroft/tapper/[^/]+/repository/packages/xen/builds! } @{ $precondition ~~ dpath '/host/preconditions//filename' };
-                        push (@{$retval->{test}}, basename($precondition->{host}->{testprogram}{execname})) if $precondition->{host}->{testprogram}{execname};
+                        ($retval->{xen_package}) = grep { m!repository/packages/xen/builds! } @{ $precondition ~~ dpath '/host/preconditions//filename' };
+                        push @{$retval->{test}}, get_test_list_from_precondition($precondition->{host});
+
                         foreach my $guest (@{$precondition->{guests}}) {
                                 my $guest_summary;
                                 $guest_summary->{arch}  = $guest->{root}{arch};
                                 $guest_summary->{image} = $guest->{root}{image} || $guest->{root}{name}; # can be an image or copyfile or package
-                                push @{$guest_summary->{test}}, basename($guest->{testprogram}{execname}) if $guest->{testprogram}{execname};
+                                push @{$guest_summary->{test}}, get_test_list_from_precondition($guest);
                                 push @{$retval->{guests}}, $guest_summary;
                         }
                         # can stop here because virt preconditions usually defines everything we need for a summary
@@ -183,12 +198,6 @@ sub similar : Chained('id') PathPart('similar') Args(0)
 {
 }
 
-=head2 new_create
-
-This function handles the form for the first step of creating a new
-testrun.
-
-=cut
 
 sub new_create : Chained('base') :PathPart('create') :Args(0) :FormConfig
 {
@@ -258,16 +267,6 @@ sub get_owner_names
         return \@owners;
 }
 
-=head2 get_hostnames
-
-Get an array of all hostnames that can be used for a new testrun.  Note:
-The array contains array that contain the hostname twice (i.e. (['host',
-'host'], ...) because that is what the template expects.
-
-@return success - ref to array of [ hostname, hostname ]
-
-
-=cut
 
 sub get_hostnames
 {
@@ -292,18 +291,6 @@ sub get_hostnames
 }
 
 
-=head2 parse_macro_precondition
-
-Parse the given file as macro precondition and return a has ref
-containing required, optional and mcp_config fields.
-
-@param catalyst context
-@param string - file name
-
-@return success - hash ref
-@return error   - string
-
-=cut
 
 sub parse_macro_precondition :Private
 {
@@ -364,18 +351,6 @@ sub parse_macro_precondition :Private
 }
 
 
-=head2 handle_precondition
-
-Check whether each required precondition has a value, uploads files and
-so on.
-
-@param  Catalyst context
-@param  config hash
-
-@return success - list of precondition ids
-@return error   - error message
-
-=cut
 
 sub handle_precondition
 {
@@ -445,14 +420,6 @@ sub handle_precondition
         return \@preconditions;
 }
 
-=head2 fill_usecase
-
-Creates the form for the last step of creating a testrun. When this form
-is submitted and valid the testrun is created based on the gathered
-data. The function is used directly by Catalyst which therefore cares
-for params and returns.
-
-=cut
 
 sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfig
 {
@@ -538,34 +505,40 @@ sub fill_usecase : Chained('base') :PathPart('fill_usecase') :Args(0) :FormConfi
 
 sub prepare_testrunlists : Private
 {
-        my ( $self, $c ) = @_;
+        my ( $self, $c, $filter_condition, $requested_day ) = @_;
 
+        $filter_condition = {} unless ref $filter_condition eq 'HASH';
         my @requested_testrunlists : Stash = ();
         my %groupstats             : Stash = ();
 
         # requested time period
-        my $days : Stash;
+        my $days   : Stash  = $filter_condition->{days};
+        my $date   : Stash  = $filter_condition->{date};
+        $requested_day ||= DateTime::Format::Natural->new->parse_datetime("today at midnight");
+
         my $lastday = $days ? $days - 1 : 6;
-        my $util = Tapper::Reports::Web::Util::Testrun->new();
-
+        my $util    = Tapper::Reports::Web::Util::Testrun->new();
         # ----- general -----
-
-        my $filter_condition;
 
         my $testruns = $c->model('TestrunDB')->resultset('Testrun')->search
           (
-           $filter_condition,
+           $filter_condition->{early},
            { order_by => 'me.id desc' }
           );
+        foreach my $filter (@{$filter_condition->{late}}) {
+                $testruns = $testruns->search($filter);
+        }
 
 
         my $parser = new DateTime::Format::Natural;
-        my $today  = $parser->parse_datetime("today at midnight");
-        my @day    = ( $today );
-        push @day, $today->clone->subtract( days => $_ ) foreach 1..$lastday;
+
+        my @day    = ( $requested_day );
+        push @day, $requested_day->clone->subtract( days => $_ ) foreach 1..$lastday;
+
+        my $dtf = $c->model("TestrunDB")->storage->datetime_parser;
 
         # ----- today -----
-        my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $day[0] }}, { starttime_testrun => { '>', $day[0] }}] });
+        my $day0_testruns = $testruns->search ( { '-or' => [ { created_at => { '>', $dtf->format_datetime($day[0]) }}, { starttime_testrun => { '>', $dtf->format_datetime($day[0]) }}] });
         push @requested_testrunlists, {
                                        day => $day[0],
                                        (testruns => $util->prepare_testrunlist( $day0_testruns ) ),
@@ -573,21 +546,24 @@ sub prepare_testrunlists : Private
         # ----- last week days -----
         foreach (1..$lastday) {
                 my $day_testruns = $testruns->search ({-or => [
-                                                               { -and => [ created_at => { '>', $day[$_]     },
-                                                                           created_at => { '<', $day[$_ - 1] } ] },
-                                                               { -and => [ starttime_testrun => { '>', $day[$_]     },
-                                                                           starttime_testrun => { '<', $day[$_ - 1] }  ] }
+                                                               { -and => [ created_at => { '>', $dtf->format_datetime($day[$_])            },
+                                                                           created_at => { '<', $dtf->format_datetime($day[$_ - 1])        } ] },
+                                                               { -and => [ starttime_testrun => { '>', $dtf->format_datetime($day[$_])     },
+                                                                           starttime_testrun => { '<', $dtf->format_datetime($day[$_ - 1]) } ] },
                                                               ]} );
                 push @requested_testrunlists, {
                                                day => $day[$_],
                                                ( testruns => $util->prepare_testrunlist( $day_testruns ) ),
                                               };
         }
+        $c->stash->{title} = "Testruns of last $days days";
+
 }
 
 sub prepare_navi : Private
 {
         my ( $self, $c ) = @_;
+        my %args = @{$c->req->arguments};
 
         my $navi : Stash = [
                             {
@@ -633,21 +609,108 @@ sub prepare_navi : Private
                                         ],
                             },
                            ];
+        push @$navi, {title   => 'Active Filters',
+                      subnavi => [
+                                  map {
+                                          { title => "$_: ".$args{$_},
+                                              href => "/tapper/testruns/".$self->reduced_filter_path(\%args, $_),
+                                                image  => "/tapper/static/images/minus.png",
+                                          }
+                                  } keys %args ]};
+
 }
+
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
-Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Testruns
 
 =head1 DESCRIPTION
 
 Catalyst Controller.
 
+=head2 index
+
+Prints a list of a testruns together with their state, start time and
+end time. No options, not return values.
+
+TODO: Too many testruns, takes too long to display. Thus, we need to add
+filter facility.
+
+=head2 get_test_list_from_precondition
+
+Utility function to extract testprograms from a given (sub-) precondition.
+
+=head2 get_testrun_overview
+
+This function reads and parses all precondition of a testrun to generate
+a summary of the testrun which will then be shown as an overview. It
+returns a hash reference containing:
+* name
+* arch
+* image
+* test
+
+@param testrun result object
+
+@return hash reference
+
+=head2 new_create
+
+This function handles the form for the first step of creating a new
+testrun.
+
+=head2 get_hostnames
+
+Get an array of all hostnames that can be used for a new testrun.  Note:
+The array contains array that contain the hostname twice (i.e. (['host',
+'host'], ...) because that is what the template expects.
+
+@return success - ref to array of [ hostname, hostname ]
+
+=head2 parse_macro_precondition
+
+Parse the given file as macro precondition and return a has ref
+containing required, optional and mcp_config fields.
+
+@param catalyst context
+@param string - file name
+
+@return success - hash ref
+@return error   - string
+
+=head2 handle_precondition
+
+Check whether each required precondition has a value, uploads files and
+so on.
+
+@param  Catalyst context
+@param  config hash
+
+@return success - list of precondition ids
+@return error   - error message
+
+=head2 fill_usecase
+
+Creates the form for the last step of creating a testrun. When this form
+is submitted and valid the testrun is created based on the gathered
+data. The function is used directly by Catalyst which therefore cares
+for params and returns.
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
+
 =head1 METHODS
 
 =head2 index
-
-
 
 =head1 AUTHOR
 
@@ -657,6 +720,17 @@ Steffen Schwigon,,,
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
 
-1;

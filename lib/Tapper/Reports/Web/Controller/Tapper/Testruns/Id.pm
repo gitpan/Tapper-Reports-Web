@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Testruns::Id;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::VERSION = '4.0.1';
+}
 
 use 5.010;
 
@@ -19,6 +25,7 @@ sub index :Path :Args(1)
         my $hostname      : Stash;
         my $time          : Stash;
 
+
         my $reportlist_rgt : Stash = {};
         eval {
                 $testrun = $c->model('TestrunDB')->resultset('Testrun')->find($testrun_id);
@@ -33,6 +40,7 @@ sub index :Path :Args(1)
         $time     = $testrun->starttime_testrun ? "started at ".$testrun->starttime_testrun : "Scheduled for ".$testrun->starttime_earliest;
         $hostname = $testrun->testrun_scheduling->host ? $testrun->testrun_scheduling->host->name : "unknown";
 
+        $c->stash->{title} = "Testrun $testrun_id: ". $testrun->topic_name . " @ $hostname";
         $overview = $c->forward('/tapper/testruns/get_testrun_overview', [ $testrun ]);
 
         my $rgt_reports = $c->model('ReportsDB')->resultset('Report')->search
@@ -65,3 +73,27 @@ sub index :Path :Args(1)
 
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Testruns::Id
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
+=cut
+

@@ -60,6 +60,19 @@ h1 span
 font-weight: bold;
 }
 
+h1 a
+{
+text-decoration: none;
+color: #fff;
+}
+
+h1 a:hover
+{
+text-decoration: underline;
+}
+
+
+
 h3 span
 {
 font-weight: bold;
@@ -137,6 +150,12 @@ tr.highlight
 {
   background-color: #fafad2
 }
+
+tr.highlightgrey
+{
+  background-color: #eeeeee
+}
+
 
 
 /* Header */
@@ -259,6 +278,7 @@ padding-bottom: 0.1em;
 margin-bottom: 0.8em;
 }
 
+
 #main_inner h4
 {
 font-size: 1.2em;
@@ -279,6 +299,14 @@ font-size: 1.7em;
 padding-bottom: 1.2em;
 /* padding-top: 1.2em; */
 }
+
+#main_inner .post h3.testplan
+{
+position: relative;
+font-size: 1.7em;
+padding-bottom: 0em;
+}
+
 
 #main_inner .post ul.post_info
 {
@@ -577,6 +605,35 @@ table.reportsectionmeta th
   }
 
 table.reportsectionmeta h5
+{
+  padding: 0.5em 0em 0em 0em;
+  }
+
+/* ----- issue summary ----- */
+
+table.issuesummary
+{
+  text-align: left;
+  }
+
+table.issuesummary tr
+{
+  padding: 0em 0em 1em 0em;
+  }
+
+table.issuesummary td
+{
+  padding: 0em 1em 0em 0em;
+  font-weight: normal;
+  }
+
+table.issuesummary th
+{
+  padding: 0em 1em 0em 0em;
+  font-weight: normal;
+  }
+
+table.issuesummary h5
 {
   padding: 0.5em 0em 0em 0em;
   }

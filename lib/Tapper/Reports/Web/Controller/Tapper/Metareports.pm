@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Metareports;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Metareports::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Metareports::VERSION = '4.0.1';
+}
 
 use strict;
 use warnings;
@@ -22,7 +28,7 @@ sub index :Path :Args(0)
         $rule->start("$path/");
         use Data::Dumper;
         my %categories;
-	use Cwd;
+        use Cwd;
         while (my $category = $rule->match) {
                 my $short;
                 {
@@ -96,19 +102,29 @@ sub report_name : Chained('base') PathPart('') Args(3)
 }
 
 
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Metareports
 
 =head1 DESCRIPTION
 
 Catalyst Controller.
 
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Testruns - Catalyst Controller
+
 =head1 METHODS
 
 =head2 index
-
-
 
 =head1 AUTHOR
 
@@ -118,6 +134,17 @@ AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
 
-1;

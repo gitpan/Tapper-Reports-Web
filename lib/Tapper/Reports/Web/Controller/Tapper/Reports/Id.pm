@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Reports::Id;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Reports::Id::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Reports::Id::VERSION = '4.0.1';
+}
 
 use 5.010;
 use strict;
@@ -13,75 +19,6 @@ use YAML;
 use Data::Dumper;
 use Data::DPath 'dpath';
 
-sub auto :Private
-{
-        my ( $self, $c ) = @_;
-
-        my $navi : Stash = [
-                 {
-                  title  => "reports by date",
-                  href   => "/tapper/overview/date",
-                  subnavi => [
-                              {
-                               title  => "today",
-                               href   => "/tapper/reports/days/1",
-                              },
-                              {
-                               title  => "2 days",
-                               href   => "/tapper/reports/days/2",
-                              },
-                              {
-                               title  => "1 week",
-                               href   => "/tapper/reports/days/7",
-                              },
-                              {
-                               title  => "2 weeks",
-                               href   => "/tapper/reports/days/14",
-                              },
-                              {
-                               title  => "3 weeks",
-                               href   => "/tapper/reports/days/21",
-                              },
-                              {
-                               title  => "1 month",
-                               href   => "/tapper/reports/days/31",
-                              },
-                              {
-                               title  => "2 months",
-                               href   => "/tapper/reports/days/62",
-                              },
-                              {
-                               title  => "4 months",
-                               href   => "/tapper/reports/days/124",
-                              },
-                              {
-                               title  => "6 months",
-                               href   => "/tapper/reports/days/182",
-                              },
-                              {
-                               title  => "12 months",
-                               href   => "/tapper/reports/days/365",
-                              },
-
-                             ],
-                 },
-                 {
-                  title  => "reports by suite",
-                  href   => "/tapper/overview/suite",
-                 },
-                 {
-                  title  => "reports by host",
-                  href   => "/tapper/overview/host",
-                 },
-                 # {
-                 #  title  => "reports by people",
-                 #  href   => "/tapper/reports/people/",
-                 #  active => 0,
-                 # },
-                ];
-}
-
-
 sub younger
 {
         my $astat = stat($a);
@@ -90,16 +27,6 @@ sub younger
 }
 
 
-=head2 generate_metareport_link
-
-Generate config for showing metareport image associated to given report.
-
-@param hash - config describing the relevant report
-
-@return success - hash containing (url, img, alt, headline)
-@return error   - empty list
-
-=cut
 
 sub generate_metareport_link
 {
@@ -161,18 +88,29 @@ sub index :Path :Args(1)
         my ( $self, $c, $report_id ) = @_;
 
         my $report         : Stash;
-        my $failures       : Stash = [];
+        my $failures       : Stash = {};
         my $reportlist_rga : Stash = {};
         my $reportlist_rgt : Stash = {};
         my %metareport     : Stash;
         my $overview       : Stash = undef;
-
         $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
 
         if (not $report) {
                 $c->response->body("No such report");
+                $c->stash->{title} = "No such report";
                 return;
         }
+
+        if (not $report->suite) {
+                $c->response->body("No such testsuite with id: ". $report->suite_id);
+                $c->stash->{title} = "No such testsuite";
+                return;
+        }
+
+        my $suite_name = $report->suite->name;
+        my $machine_name = $report->machine_name;
+        $c->stash->{title} = "Report $report_id: $suite_name @ $machine_name";
+
         my $util_report = Tapper::Reports::Web::Util::Report->new();
 
         if (my $rga = $report->reportgrouparbitrary) {
@@ -189,6 +127,14 @@ sub index :Path :Args(1)
                      }
                     );
                 $reportlist_rga = $util_report->prepare_simple_reportlist($c,  $rga_reports);
+
+                $rga_reports->reset;
+                while (my $r = $rga_reports->next) {
+                        if (my @report_failures = @{ $self->get_report_failures($r) }) {
+                                $failures->{$r->id}{name} = $r->suite->name;
+                                push @{$failures->{$r->id}{failures}}, @report_failures;
+                        }
+                }
         }
 
         if (my $rgt = $report->reportgrouptestrun) {
@@ -206,6 +152,14 @@ sub index :Path :Args(1)
                     );
                 $reportlist_rgt = $util_report->prepare_simple_reportlist($c,  $rgt_reports);
 
+                $rgt_reports->reset;
+                while (my $r = $rgt_reports->next) {
+                        if (my @report_failures = @{ $self->get_report_failures($r) }) {
+                                $failures->{$r->id}{name} = $r->suite->name;
+                                push @{$failures->{$r->id}{failures}}, @report_failures;
+                        }
+                }
+
                 my %cols = $rgt_reports->first->get_columns;
                 my $testrun_id = $cols{rgt_id};
                 my $testrun;
@@ -219,8 +173,45 @@ sub index :Path :Args(1)
         my $report_data = {suite => $report->suite ? $report->suite->name : 'unknownsuite' ,
                            group_suite => $tmp};
 
-        $failures = $self->get_report_failures($report);
+        unless (my @report_failures = @{$failures->{$report->id}{failures} || []}) {
+                $failures->{$report->id}{name} = $report->suite->name;
+                push @{$failures->{$report->id}{failures}}, @report_failures;
+        }
         %metareport = $self->generate_metareport_link($report_data);
+
 }
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Reports::Id
+
+=head2 generate_metareport_link
+
+Generate config for showing metareport image associated to given report.
+
+@param hash - config describing the relevant report
+
+@return success - hash containing (url, img, alt, headline)
+@return error   - empty list
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
+=cut
+

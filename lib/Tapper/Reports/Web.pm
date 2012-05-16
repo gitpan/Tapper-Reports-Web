@@ -1,4 +1,11 @@
 package Tapper::Reports::Web;
+BEGIN {
+  $Tapper::Reports::Web::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::VERSION = '4.0.1';
+}
+# ABSTRACT: Tapper - Frontend web application based on Catalyst
 
 use strict;
 use warnings;
@@ -7,6 +14,7 @@ use 5.010;
 
 use Catalyst::Runtime '5.70';
 use Hash::Merge;
+use Tapper::Config;
 
 use Class::C3::Adopt::NEXT;
 
@@ -19,8 +27,6 @@ use Class::C3::Adopt::NEXT;
 #                 directory
 
 use parent qw/Catalyst/;
-
-our $VERSION = '3.000010';
 
 # used by Catalyst::Plugin::ConfigLoader
 sub finalize_config
@@ -39,6 +45,8 @@ sub finalize_config
                                       $c->config->{ $env } || {} ,
                                      )
                   );
+        $c->config->{tapper_config} = Tapper::Config->subconfig;
+
 
         return;
 }
@@ -65,43 +73,66 @@ sub prepare_path
 
 
 # Configure the application.
-__PACKAGE__->config( name => 'Tapper::Reports::Web' );
+__PACKAGE__->config( name => 'Tapper::Reports::Web',
+                    'Plugin::Authentication' => {
+                                                 'realms' => {
+                                                              'default' => {
+                                                                            'credential' => {
+                                                                                             'class' => 'Authen::Simple',
+                                                                                             'authen' => [
+                                                                                                          {
+                                                                                                           'class' => 'PAM',
+                                                                                                           args => {
+                                                                                                                    service => 'login'
+                                                                                                                   },
+                                                                                                          },
+                                                                                                         ]
+                                                                                            }
+                                                                           }
+                                                             }
+                                                }
+
+                   );
+
 __PACKAGE__->config->{static}->{dirs} = [
                                          'tapper/static',
                                         ];
 
+
+
 # Start the application
 __PACKAGE__->setup(qw/-Debug
                       ConfigLoader
+
+                      Authentication
                       Static::Simple Session
                       Session::State::Cookie
-                      Session::Store::File/);
+                      Session::Store::File/,
 
+                  );
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
 Tapper::Reports::Web - Tapper - Frontend web application based on Catalyst
 
-=head1 SYNOPSIS
-
-    script/tapper_reports_web_server.pl
-
-=head1 DESCRIPTION
-
-[enter your description here]
-
-=head1 SEE ALSO
-
-L<Tapper::Reports::Web::Controller::Root>, L<Catalyst>
-
 =head1 AUTHOR
 
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 LICENSE
+=head1 COPYRIGHT AND LICENSE
 
-This program is released under the following license: proprietary
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
 
 =cut
 
-1;

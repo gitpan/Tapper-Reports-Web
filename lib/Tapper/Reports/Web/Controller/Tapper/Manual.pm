@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Controller::Tapper::Manual;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Manual::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Manual::VERSION = '4.0.1';
+}
 
 use strict;
 use warnings;
@@ -14,15 +20,23 @@ sub index :Path :Args(0)
 
 1;
 
-__END__
+
+
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
-Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Manual
 
 =head1 DESCRIPTION
 
 Catalyst Controller.
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
 
 =head1 METHODS
 
@@ -34,4 +48,20 @@ Steffen Schwigon,,,
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
+
+
+__END__
+

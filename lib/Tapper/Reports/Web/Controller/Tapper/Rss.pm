@@ -1,44 +1,37 @@
 package Tapper::Reports::Web::Controller::Tapper::Rss;
+BEGIN {
+  $Tapper::Reports::Web::Controller::Tapper::Rss::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Controller::Tapper::Rss::VERSION = '4.0.1';
+}
 
 use XML::Feed;
 use DateTime;
-use Tapper::Reports::Web::Util::Filter;
+use Tapper::Reports::Web::Util::Filter::Report;
 
 use parent 'Catalyst::Controller';
 
 use common::sense;
 ## no critic (RequireUseStrict)
 
-=head2 index
-
-Controller for RSS feeds of results reported to Tapper Reports
-Framework. The function expectes an unrestricted number of arguments
-that are interpreted as filters. Thus, the arguments need to be in pairs
-of $filter_type/$filter_value. Since index is a catalyst function the
-typical catalyst arguments $self and $c do not occur in the API doc.
-
-@param array - filter arguments
-
-=cut
 
 sub index :Path :Args()
 {
         my ($self,$c, @args) = @_;
 
-        my $filter = Tapper::Reports::Web::Util::Filter->new(context => $c);
-
+        my $filter = Tapper::Reports::Web::Util::Filter::Report->new(context => $c);
+        my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
 
         my $feed = XML::Feed->new('RSS');
-        $feed->title( ' RSS Feed' );
+        $feed->title( 'Tapper RSS Feed' );
         $feed->link( $c->req->base ); # link to the site.
-        $feed->description('Tapper Reports');
+        $feed->description('Tapper Reports ');
 
         my $feed_entry;
         my $title;
 
-
         my $filter_condition;
-
 
         $filter_condition = $filter->parse_filters(\@args);
         if ( defined $filter_condition->{error} ) {
@@ -52,7 +45,7 @@ sub index :Path :Args()
         if (not $filter_condition->{early}{created_at}) {
                 my $now = DateTime->now();
                 $now->subtract(days => 2);
-                $filter_condition->{early}{created_at} = {'>' => $now};
+                $filter_condition->{early}{created_at} = {'>' => $dtf->format_datetime($now) };
         }
 
 
@@ -64,7 +57,6 @@ sub index :Path :Args()
                                suite_id
                                created_at
                                machine_name
-                               created_at
                                success_ratio
                                successgrade
                                reviewed_successgrade
@@ -78,7 +70,7 @@ sub index :Path :Args()
 
 
         # Process the entries
-        foreach my $report ($reports->all) {
+        while (my $report = $reports->next) {
                 $feed_entry  = XML::Feed::Entry->new('RSS');
                 $title       = $report->successgrade;
                 $title      .= " ".($report->success_ratio // 0)."%";
@@ -86,7 +78,7 @@ sub index :Path :Args()
                 $title      .= " @ ";
                 $title      .= $report->machine_name || 'unknown machine';
                 $feed_entry->title( $title );
-                $feed_entry->link( $c->req->base->as_string.'/tapper/reports/id/'.$report->id );
+                $feed_entry->link( $c->req->base->as_string.'tapper/reports/id/'.$report->id );
                 $feed_entry->issued( $report->created_at );
                 $feed->add_entry($feed_entry);
         }
@@ -96,15 +88,33 @@ sub index :Path :Args()
 
 1;
 
-__END__
+
+
+=pod
+
+=encoding utf-8
 
 =head1 NAME
 
-Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
+Tapper::Reports::Web::Controller::Tapper::Rss
 
 =head1 DESCRIPTION
 
 Catalyst Controller.
+
+=head2 index
+
+Controller for RSS feeds of results reported to Tapper Reports
+Framework. The function expectes an unrestricted number of arguments
+that are interpreted as filters. Thus, the arguments need to be in pairs
+of $filter_type/$filter_value. Since index is a catalyst function the
+typical catalyst arguments $self and $c do not occur in the API doc.
+
+@param array - filter arguments
+
+=head1 NAME
+
+Tapper::Reports::Web::Controller::Tapper::Hardware - Catalyst Controller
 
 =head1 METHODS
 
@@ -116,5 +126,21 @@ Steffen Schwigon,,,
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
+
+
+__END__
+
 

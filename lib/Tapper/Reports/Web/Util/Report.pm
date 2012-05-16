@@ -1,7 +1,15 @@
 package Tapper::Reports::Web::Util::Report;
+BEGIN {
+  $Tapper::Reports::Web::Util::Report::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Util::Report::VERSION = '4.0.1';
+}
 
 use Moose;
 use Tapper::Model 'model';
+
+extends 'Tapper::Reports::Web::Util';
 
 use common::sense;
 
@@ -49,9 +57,15 @@ sub prepare_simple_reportlist
                          peeraddr              => $report->peeraddr,
                          peerhost              => $report->peerhost,
                         };
+
+                # --- scheduling state ---
+                my $testrun_scheduling = model('TestrunDB')->resultset('TestrunScheduling')->search({testrun_id => $rgt_id})->first;
+                $r->{testrunscheduling_status} = $testrun_scheduling->status if $testrun_scheduling;
+
                 # --- arbitrary ---
                 if ($rga_id and $rga_primary)
                 {
+                        $r->{owner} = $report->reportgrouparbitrary->owner;
                         push @reports, $r;
                         $rga_prims{$rga_id} = 1;
                 }
@@ -63,8 +77,7 @@ sub prepare_simple_reportlist
                 # --- testrun ---
                 if ($rgt_id and $rgt_primary)
                 {
-                        my $testrun = model('TestrunDB')->resultset('Testrun')->find($rgt_id);
-                        $r->{owner} = $testrun->owner->login if $testrun;
+                        $r->{owner} = $report->reportgrouptestrun->owner;
                         push @reports, $r;
                         $rgt_prims{$rgt_id} = 1;
                 }
@@ -117,3 +130,27 @@ sub prepare_simple_reportlist
 
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Util::Report
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
+=cut
+

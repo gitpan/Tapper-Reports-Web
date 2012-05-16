@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::View::Mason;
+BEGIN {
+  $Tapper::Reports::Web::View::Mason::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::View::Mason::VERSION = '4.0.1';
+}
 
 use strict;
 use warnings;
@@ -31,9 +37,21 @@ sub my_url_filter
         $$text_ref =~ s,/,%2F,g;
 }
 
+
+1;
+
+# Local Variables:
+# buffer-file-coding-system: utf-8
+# End:
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-Tapper::Reports::Web::View::Mason - Mason View Component
+Tapper::Reports::Web::View::Mason
 
 =head1 SYNOPSIS
 
@@ -42,6 +60,10 @@ Tapper::Reports::Web::View::Mason - Mason View Component
 =head1 DESCRIPTION
 
 Very nice component.
+
+=head1 NAME
+
+Tapper::Reports::Web::View::Mason - Mason View Component
 
 =head1 AUTHOR
 
@@ -52,10 +74,17 @@ Clever guy
 This library is free software . You can redistribute it and/or modify it under
 the same terms as perl itself.
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
 
-1;
-
-# Local Variables:
-# buffer-file-coding-system: utf-8
-# End:

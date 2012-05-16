@@ -1,30 +1,18 @@
 package Tapper::Reports::Web::Util::Testrun;
+BEGIN {
+  $Tapper::Reports::Web::Util::Testrun::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Util::Testrun::VERSION = '4.0.1';
+}
 
 use Moose;
 use Tapper::Model 'model';
 
 use common::sense;
 
-=head2 prepare_testrunlist
+extends 'Tapper::Reports::Web::Util';
 
-For each of the given testruns generate a hash describing the
-testrun. This hash is used to display the testrun in the template.
-
-hash contains:
-* primary_report_id
-* success_ratio
-* testrun_id
-* suite_name
-* host_name
-* status
-* created_at
-* updated_at
-
-@param DBIC resultset - testruns
-
-@return array ref - list of hash refs describing the testruns
-
-=cut
 
 
 sub prepare_testrunlist
@@ -53,8 +41,14 @@ sub prepare_testrunlist
 
                 my ($hostname, $status);
                 if ($testrun->testrun_scheduling) {
-                        $hostname = $testrun->testrun_scheduling->host ?
-                          $testrun->testrun_scheduling->host->name : 'No host assigned'; # no host assigned at scheduling
+                        if ($testrun->testrun_scheduling->host) {
+                                $hostname = $testrun->testrun_scheduling->host->name;
+                        } else {
+                                $hostname = $testrun->testrun_scheduling->status eq 'finished' ?
+                                  'Host deleted' :
+                                    'No host assigned';
+
+                        }
                         $status   = $testrun->testrun_scheduling->status;
                 }
 
@@ -62,12 +56,13 @@ sub prepare_testrunlist
                           testrun_id            => $testrun->id,
                           success_ratio         => $testrun_report ? $testrun_report->success_ratio : 0,
                           primary_report_id     => $primary_report_id,
-                          suite_name            => $suite_name || $testrun->topic_name,
+                          topic_name            => $testrun->topic_name,
                           machine_name          => $hostname   || 'unknownmachine',
                           status                => $status     || 'unknown status',
                           started_at            => $testrun->starttime_testrun,
                           created_at            => $testrun->created_at,
                           updated_at            => $updated_at || $testrun->updated_at,
+                          owner                 => $testrun->owner->login || 'unknown user' ,
                          };
                 push @testruns, $tr;
         }
@@ -76,3 +71,46 @@ sub prepare_testrunlist
 
 
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Util::Testrun
+
+=head2 prepare_testrunlist
+
+For each of the given testruns generate a hash describing the
+testrun. This hash is used to display the testrun in the template.
+
+hash contains:
+* primary_report_id
+* success_ratio
+* testrun_id
+* suite_name
+* host_name
+* status
+* created_at
+* updated_at
+
+@param DBIC resultset - testruns
+
+@return array ref - list of hash refs describing the testruns
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
+=cut
+

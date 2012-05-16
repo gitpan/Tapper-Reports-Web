@@ -1,4 +1,10 @@
 package Tapper::Reports::Web::Model::TestrunDB;
+BEGIN {
+  $Tapper::Reports::Web::Model::TestrunDB::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Reports::Web::Model::TestrunDB::VERSION = '4.0.1';
+}
 
 use strict;
 use warnings;
@@ -17,16 +23,28 @@ __PACKAGE__->config(
                                     ],
                    );
 
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Reports::Web::Model::TestrunDB
+
+=head1 DESCRIPTION
+
+L<Catalyst::Model::DBIC::Schema> Model using schema L<Tapper::Schema::TestrunDB>
+
 =head1 NAME
 
 Tapper::Reports::Web::Model::TestrunDB - Catalyst DBIC Schema Model
 =head1 SYNOPSIS
 
 See L<Tapper::Reports::Web>
-
-=head1 DESCRIPTION
-
-L<Catalyst::Model::DBIC::Schema> Model using schema L<Tapper::Schema::TestrunDB>
 
 =head1 AUTHOR
 
@@ -36,6 +54,17 @@ Steffen Schwigon,,,
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
 
-1;
