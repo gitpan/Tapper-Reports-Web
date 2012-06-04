@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::VERSION = '4.0.1';
+  $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::VERSION = '4.0.2';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';

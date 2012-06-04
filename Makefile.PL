@@ -27,6 +27,7 @@ my %WriteMakefileArgs = (
   "NAME" => "Tapper::Reports::Web",
   "PREREQ_PM" => {
     "Catalyst" => 0,
+    "Catalyst::Authentication::Credential::Authen::Simple" => 0,
     "Catalyst::Controller" => 0,
     "Catalyst::Controller::BindLex" => 0,
     "Catalyst::Controller::HTML::FormFu" => 0,
@@ -47,6 +48,7 @@ my %WriteMakefileArgs = (
     "HTML::FromANSI" => 0,
     "Hash::Merge" => 0,
     "Hash::Merge::Simple" => 0,
+    "Module::Find" => "0.11",
     "Moose" => 0,
     "Perl6::Junction" => 0,
     "Set::Intersection" => 0,
@@ -66,7 +68,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.0.1",
+  "VERSION" => "4.0.2",
   "test" => {
     "TESTS" => "t/*.t"
   }

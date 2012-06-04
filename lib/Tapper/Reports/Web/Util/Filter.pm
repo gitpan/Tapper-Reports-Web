@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Util::Filter::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Util::Filter::VERSION = '4.0.1';
+  $Tapper::Reports::Web::Util::Filter::VERSION = '4.0.2';
 }
 
 use DateTime;

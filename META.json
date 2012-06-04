@@ -22,6 +22,7 @@
       "runtime" : {
          "requires" : {
             "Catalyst" : "0",
+            "Catalyst::Authentication::Credential::Authen::Simple" : "0",
             "Catalyst::Controller" : "0",
             "Catalyst::Controller::BindLex" : "0",
             "Catalyst::Controller::HTML::FormFu" : "0",
@@ -42,6 +43,7 @@
             "HTML::FromANSI" : "0",
             "Hash::Merge" : "0",
             "Hash::Merge::Simple" : "0",
+            "Module::Find" : "0.11",
             "Moose" : "0",
             "Perl6::Junction" : "0",
             "Set::Intersection" : "0",
@@ -86,7 +88,7 @@
          "web" : "http://github.com/amd/Tapper-Reports-Web"
       }
    },
-   "version" : "4.0.1",
+   "version" : "4.0.2",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
@@ -243,6 +245,17 @@
             "class" : "Dist::Zilla::Plugin::Git::Push",
             "name" : "@AMD/@Git/Push",
             "version" : "1.121010"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Prereqs",
+            "config" : {
+               "Dist::Zilla::Plugin::Prereqs" : {
+                  "phase" : "runtime",
+                  "type" : "requires"
+               }
+            },
+            "name" : "Prereqs",
+            "version" : "4.300016"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Util::Filter::Testrun::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Util::Filter::Testrun::VERSION = '4.0.1';
+  $Tapper::Reports::Web::Util::Filter::Testrun::VERSION = '4.0.2';
 }
 
 

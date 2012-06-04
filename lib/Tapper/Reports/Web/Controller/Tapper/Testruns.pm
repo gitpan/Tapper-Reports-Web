@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Testruns::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testruns::VERSION = '4.0.1';
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::VERSION = '4.0.2';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';
