@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Model::TestrunDB::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Model::TestrunDB::VERSION = '4.0.2';
+  $Tapper::Reports::Web::Model::TestrunDB::VERSION = '4.0.3';
 }
 
 use strict;

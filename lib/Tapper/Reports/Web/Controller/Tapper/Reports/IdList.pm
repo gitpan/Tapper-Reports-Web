@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.0.2';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.0.3';
 }
 
 use 5.010;

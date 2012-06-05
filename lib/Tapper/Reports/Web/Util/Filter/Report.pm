@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Util::Filter::Report::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Util::Filter::Report::VERSION = '4.0.2';
+  $Tapper::Reports::Web::Util::Filter::Report::VERSION = '4.0.3';
 }
 
 

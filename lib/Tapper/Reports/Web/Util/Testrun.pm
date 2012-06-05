@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Util::Testrun::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Util::Testrun::VERSION = '4.0.2';
+  $Tapper::Reports::Web::Util::Testrun::VERSION = '4.0.3';
 }
 
 use Moose;

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::View::Mason::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::View::Mason::VERSION = '4.0.2';
+  $Tapper::Reports::Web::View::Mason::VERSION = '4.0.3';
 }
 
 use strict;
