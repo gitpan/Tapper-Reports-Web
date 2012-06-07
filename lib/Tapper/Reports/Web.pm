@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::VERSION = '4.0.3';
+  $Tapper::Reports::Web::VERSION = '4.0.4';
 }
 # ABSTRACT: Tapper - Frontend web application based on Catalyst
 

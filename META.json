@@ -21,6 +21,7 @@
       },
       "runtime" : {
          "requires" : {
+            "Authen::Simple::PAM" : "0",
             "Catalyst" : "0",
             "Catalyst::Authentication::Credential::Authen::Simple" : "0",
             "Catalyst::Controller" : "0",
@@ -42,7 +43,11 @@
             "DateTime" : "0",
             "DateTime::Format::DateParse" : "0",
             "DateTime::Format::Natural" : "0",
+            "DateTime::Format::Strptime" : "0",
+            "DateTime::Format::W3CDTF" : "0",
+            "FCGI" : "0",
             "File::Basename" : "0",
+            "File::Copy::Recursive" : "0",
             "File::Find::Rule" : "0",
             "File::Path" : "0",
             "File::stat" : "0",
@@ -94,7 +99,7 @@
          "web" : "http://github.com/amd/Tapper-Reports-Web"
       }
    },
-   "version" : "4.0.3",
+   "version" : "4.0.4",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
