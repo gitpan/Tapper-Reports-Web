@@ -3,15 +3,13 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Base::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Base::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Base::VERSION = '4.1.0';
 }
 
 use strict;
 use warnings;
 
-use parent qw(Catalyst::Controller::HTML::FormFu Catalyst::Controller::BindLex);
-__PACKAGE__->config->{bindlex}{Param}    = sub { $_[0]->req->params };
-__PACKAGE__->config->{unsafe_bindlex_ok} = 1;
+use parent qw(Catalyst::Controller::HTML::FormFu);
 
 
 sub reduced_filter_path
@@ -26,7 +24,9 @@ sub reduced_filter_path
 sub prepare_filter_path
 {
         my ($self, $c, $days) = @_;
-        my %args = @{$c->req->arguments};
+        my @args = @{$c->req->arguments};
+        my %args;
+        %args = @args if (int @args % 2 == 0);
 
         $args{days} = $days if $days;
 

@@ -3,16 +3,15 @@ BEGIN {
   $Tapper::Reports::Web::Model::ReportsDB::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Model::ReportsDB::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Model::ReportsDB::VERSION = '4.1.0';
 }
 
 use strict;
 use warnings;
 
-use Tapper::Reports::Web;
 use Tapper::Config;
 
-use base 'Catalyst::Model::DBIC::Schema';
+use parent 'Catalyst::Model::DBIC::Schema';
 
 __PACKAGE__->config(
                     schema_class => 'Tapper::Schema::ReportsDB',

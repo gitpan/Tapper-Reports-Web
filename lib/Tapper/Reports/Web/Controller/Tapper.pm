@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::VERSION = '4.1.0';
 }
 
 use strict;
@@ -39,10 +39,17 @@ sub auto :Private
 
 
         my (undef, $action) = split '/', $c->req->action;
-        my $top_menu : Stash = $util->prepare_top_menu($action);
-        if ($c->user_exists()) {
-                my $username = $c->user->username;
-                map {do {$_->{text} = "Logout $username"; $_->{uri} = '/tapper/user/logout'} if $_->{text} eq 'Login'} @$top_menu;
+        $c->stash->{top_menu} = $util->prepare_top_menu($action);
+        if ($c->config->{use_authentication}) {
+                if ($c->user_exists()) {
+                        my $username = $c->user->username;
+                        foreach (@{$c->stash->{top_menu}}) {
+                                if ($_->{text} eq 'Login') {
+                                        $_->{text} = "Logout $username";
+                                        $_->{uri} = '/tapper/user/logout';
+                                }
+                        }
+                }
         }
 
         # if auto returns false the remaining actions are not called

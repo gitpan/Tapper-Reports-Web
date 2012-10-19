@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Testplan::Taskjuggler::VERSION = '4.1.0';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';
@@ -21,7 +21,7 @@ sub index :Path :Args(0)
         my ( $self, $c ) = @_;
         my $taskjuggler = Tapper::Testplan::Plugins::Taskjuggler->new(cfg => Tapper::Config->subconfig->{testplans}{reporter}{plugin});
         my $reporter    = Tapper::Testplan::Reporter->new();
-        my $platforms : Stash = $taskjuggler->prepare_task_data();
+        $c->stash->{platforms} = $taskjuggler->prepare_task_data();
         $c->stash->{title} = "Testplan Taskjuggler matrix";
 
         return;

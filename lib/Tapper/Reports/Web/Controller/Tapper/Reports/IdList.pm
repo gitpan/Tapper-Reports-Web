@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.1.0';
 }
 
 use 5.010;
@@ -18,8 +18,6 @@ use parent 'Tapper::Reports::Web::Controller::Base';
 sub prepare_idlist : Private
 {
         my ( $self, $c, $ids ) = @_;
-
-        my $reportlist : Stash = ();
 
         use Data::Dumper;
         my @idfilter = map { ("me.id" => $_) } @$ids;
@@ -44,14 +42,12 @@ sub prepare_idlist : Private
              }
             );
         my $util_report = Tapper::Reports::Web::Util::Report->new();
-        $reportlist = $util_report->prepare_simple_reportlist($c,  $reports);
+        $c->stash->{reportlist} = $util_report->prepare_simple_reportlist($c,  $reports);
 }
 
 sub index :Path :Args(1)
 {
         my ( $self, $c, $idlist ) = @_;
-
-        my $filter_condition : Stash = {};
 
         print STDERR "idlist = <$idlist>\n";
         my @ids = split (qr/, */, $idlist);

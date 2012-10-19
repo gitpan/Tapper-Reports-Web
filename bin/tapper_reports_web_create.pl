@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+# PODNAME: tapper_reports_web_create.pl
+# ABSTRACT: Tapper - web gui create controller script
 
 use strict;
 use warnings;
@@ -8,9 +10,15 @@ Catalyst::ScriptRunner->run('Tapper::Reports::Web', 'Create');
 
 1;
 
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-tapper_reports_web_create.pl - Create a new Catalyst Component
+tapper_reports_web_create.pl - Tapper - web gui create controller script
 
 =head1 SYNOPSIS
 
@@ -23,7 +31,7 @@ tapper_reports_web_create.pl [options] model|view|controller name [helper] [opti
 
  Examples:
    tapper_reports_web_create.pl controller My::Controller
-   tapper_reports_web_create.pl -mechanize controller My::Controller
+   tapper_reports_web_create.pl --mechanize controller My::Controller
    tapper_reports_web_create.pl view My::View
    tapper_reports_web_create.pl view HTML TT
    tapper_reports_web_create.pl model My::Model
@@ -48,6 +56,10 @@ Existing component files are not overwritten.  If any of the component files
 to be created already exist the file will be written with a '.new' suffix.
 This behavior can be suppressed with the C<-force> option.
 
+=head1 NAME
+
+tapper_reports_web_create.pl - Create a new Catalyst Component
+
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm
@@ -57,4 +69,17 @@ Catalyst Contributors, see Catalyst.pm
 This library is free software. You can redistribute it and/or modify
 it under the same terms as Perl itself.
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
+

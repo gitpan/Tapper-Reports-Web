@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Reports::Tap::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::Tap::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::Tap::VERSION = '4.1.0';
 }
 
 use strict;
@@ -14,17 +14,18 @@ use parent 'Tapper::Reports::Web::Controller::Base';
 sub index :Path :Args(1)
 {
         my ( $self, $c, $report_id ) = @_;
-        my $report : Stash = $c->model('ReportsDB')->resultset('Report')->find($report_id);
+
+        my $report = $c->model('ReportsDB')->resultset('Report')->find($report_id);
 
         if ($report) {
-                if ($report->tap->tap_is_archive) {
+                if ($report->tap && $report->tap->tap_is_archive) {
                         $c->response->content_type ('application/x-compressed');
                         $c->response->header ("Content-Disposition" => 'inline; filename="tap-'.$report_id.'.tgz"');
                 } else {
                         $c->response->content_type ('text/plain');
                         $c->response->header ("Content-Disposition" => 'inline; filename="tap-'.$report_id.'.tap"');
                 }
-                $c->response->body ($report->tap->tap || "Error: No TAP for report $report_id.");
+                $c->response->body ($report->tap ? $report->tap->tap : "Error: No TAP for report $report_id.");
         } else {
                 $c->response->content_type ("text/plain");
                 $c->response->header ("Content-Disposition" => 'inline; filename="nonexistent.report.tap.'.$report_id.'"');

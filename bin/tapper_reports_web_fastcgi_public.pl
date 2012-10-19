@@ -1,4 +1,6 @@
 #! /usr/bin/perl
+# PODNAME: tapper_reports_web_fastcgi.pl
+# ABSTRACT: Tapper - web gui start script - fastcgi
 
 # Explicitely only for the live environment on bancroft
 
@@ -43,9 +45,15 @@ Tapper::Reports::Web->run(
 
 1;
 
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-tapper_reports_web_fastcgi_live.pl - Catalyst FastCGI
+tapper_reports_web_fastcgi.pl - Tapper - web gui start script - fastcgi
 
 =head1 SYNOPSIS
 
@@ -73,6 +81,10 @@ tapper_reports_web_fastcgi_live.pl [options]
 
 Run a Tapper Reports Web application as fastcgi.
 
+=head1 NAME
+
+tapper_reports_web_fastcgi_live.pl - Catalyst FastCGI
+
 =head1 AUTHOR
 
 Sebastian Riedel, C<sri@oook.de>
@@ -82,4 +94,17 @@ Maintained by the Catalyst Core Team.
 
 This program is released under the following license: freebsd
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
+

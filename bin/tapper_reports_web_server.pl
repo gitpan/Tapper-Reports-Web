@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+# PODNAME: tapper_reports_web_server.pl
+# ABSTRACT: Tapper - web gui test server
 
 BEGIN {
     $ENV{CATALYST_SCRIPT_GEN} = 40;
@@ -9,9 +11,16 @@ Catalyst::ScriptRunner->run('Tapper::Reports::Web', 'Server');
 
 1;
 
+
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-tapper_reports_web_server.pl - Catalyst Test Server
+tapper_reports_web_server.pl - Tapper - web gui test server
 
 =head1 SYNOPSIS
 
@@ -47,6 +56,10 @@ tapper_reports_web_server.pl [options]
 
 Run a Catalyst Testserver for this application.
 
+=head1 NAME
+
+tapper_reports_web_server.pl - Catalyst Test Server
+
 =head1 AUTHORS
 
 Catalyst Contributors, see Catalyst.pm
@@ -55,6 +68,18 @@ Catalyst Contributors, see Catalyst.pm
 
 This library is free software. You can redistribute it and/or modify
 it under the same terms as Perl itself.
+
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
 
 =cut
 

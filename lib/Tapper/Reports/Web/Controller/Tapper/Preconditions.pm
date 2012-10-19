@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Preconditions::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Preconditions::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Preconditions::VERSION = '4.1.0';
 }
 
 use strict;
@@ -16,14 +16,13 @@ use Tapper::Model 'model';
 sub index :Path :Args(0)
 {
         my ( $self, $c ) = @_;
-        my @preconditions : Stash;
 
         my $precond_search = $c->model('TestrunDB')->resultset('Precondition');
         while (my $this_precond = $precond_search->next()) {
                 my $hash = $this_precond->precondition_as_hash;
                 $hash->{id} = $this_precond->id;
 
-                push @preconditions, $hash;
+                push @{$c->stash->{preconditions}}, $hash;
         }
         return;
 }

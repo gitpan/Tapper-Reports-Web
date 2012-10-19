@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Testplan::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testplan::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Testplan::VERSION = '4.1.0';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';
@@ -14,6 +14,7 @@ use common::sense;
 use DateTime::Format::Natural;
 use Tapper::Reports::Web::Util::Filter::Testplan;
 use Tapper::Model 'model';
+use Tapper::Cmd::Testplan;
 
 sub auto :Private
 {
@@ -23,24 +24,69 @@ sub auto :Private
 }
 
 
+sub base : Chained PathPrefix CaptureArgs(0) { }
+
+sub id : Chained('base') PathPart('') CaptureArgs(1)
+{
+        my ( $self, $c, $id ) = @_;
+        $c->stash(testplan => $c->model('TestrunDB')->resultset('TestplanInstance')->find($id));
+        if (not $c->stash->{testplan}) {
+                $c->response->body(qq(No testplan instance with id "$id" found in the database!));
+                return;
+        }
+
+}
+
+sub rerun : Chained('id') PathPart('rerun') Args(0)
+{
+        my ( $self, $c ) = @_;
+
+        my $cmd = Tapper::Cmd::Testplan->new();
+        my $retval = $cmd->rerun($c->stash->{testplan}->id);
+        if (not $retval) {
+                $c->response->body(qq(Can not rerun testplan));
+                return;
+        }
+        $c->stash(testplan => $c->model('TestrunDB')->resultset('TestplanInstance')->find($retval));
+}
+
+
+sub delete : Chained('id') PathPart('delete')
+{
+        my ( $self, $c, $force) = @_;
+
+        my $cmd = Tapper::Cmd::Testplan->new();
+        if ($force) {
+                $c->stash->{force} = 1;
+                my $retval = $cmd->del($c->stash->{testplan}->id);
+                if ($retval) {
+                        $c->response->body(qq(Can not delete testplan: $retval));
+                        return;
+                }
+        }
+
+}
+
+
 
 sub index :Path :Args()
 {
         my ( $self, $c, @args ) = @_;
-        my $error_msg : Flash;
 
         my $filter = Tapper::Reports::Web::Util::Filter::Testplan->new(context => $c);
         my $filter_condition = $filter->parse_filters(\@args, ['days', 'date', 'path', 'name']);
         $c->stash->{title} = "Testplan list";
+        $c->stash->{testplan_id} = undef;
 
         if ($filter_condition->{error}) {
-                $error_msg = join("; ", @{$filter_condition->{error}});
+                $c->flash->{error_msg} = join("; ", @{$filter_condition->{error}});
                 $c->res->redirect("/tapper/testplan/days/2");
         }
 
         my $days = $filter_condition->{days} || 6;
+        $c->stash->{days} = $days;
 
-        my $testplan_days : Stash = [];
+        $c->stash->{testplan_days} = [];
         my $today = DateTime::Format::Natural->new->parse_datetime("today at midnight");
         my $dtf = $c->model("ReportsDB")->storage->datetime_parser;
 
@@ -56,9 +102,9 @@ sub index :Path :Args()
 
                 my @details = $self->get_testrun_details($todays_instances);
                 if (@details) {
-                        push @$testplan_days, { date               => $today,
-                                                testplan_instances => \@details,
-                                              };
+                        push @{$c->stash->{testplan_days}}, { date               => $today,
+                                                              testplan_instances => \@details,
+                                                            };
                 }
         }
 
@@ -74,9 +120,9 @@ sub index :Path :Args()
                                                                          ]});
                 my @details = $self->get_testrun_details($todays_instances);
                 if (@details) {
-                        push @$testplan_days, { date               => $today,
-                                                testplan_instances => \@details,
-                                              };
+                        push @{$c->stash->{testplan_days}}, { date               => $today,
+                                                              testplan_instances => \@details,
+                                                            };
                 }
                 $today = $yesterday;
         }
@@ -107,7 +153,7 @@ sub get_testrun_details
         TESTRUN:
                 while ( my $testrun = $testruns->next) {
                         next TESTRUN if $testrun->testrun_scheduling->status ne 'finished';
-                        my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun->id})->first;
+                        my $stats   = model('ReportsDB')->resultset('ReportgroupTestrunStats')->search({testrun_id => $testrun->id}, {rows => 1})->first;
 
                         $details->{count_fail}++ if $stats and $stats->success_ratio  < 100;
                         $details->{count_pass}++ if $stats and $stats->success_ratio == 100;
@@ -120,11 +166,11 @@ sub get_testrun_details
 sub prepare_navi : Private
 {
         my ( $self, $c ) = @_;
-        my $navi : Stash = [];
+        $c->stash->{navi} = [];
 
         my %args = @{$c->req->arguments};
 
-        $navi = [
+        $c->stash->{navi} = [
                  {
                   title  => "Matrix Overview",
                   href => "/tapper/testplan/taskjuggler/",
@@ -178,15 +224,15 @@ sub prepare_navi : Private
                  },
                 ];
 
-        push @$navi, {title   => 'Active Filters',
+        push @{$c->stash->{navi}}, {title   => 'Active Filters',
                       subnavi => [
                                   map {
-                                          { title => "$_: ".$args{$_},
-                                              href => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
-                                                image  => "/tapper/static/images/minus.png",
-                                          }
+                                          {
+                                                  title => "$_: ".$args{$_},
+                                                    href => "/tapper/reports/".$self->reduced_filter_path(\%args, $_),
+                                                      image  => "/tapper/static/images/minus.png",
+                                              }
                                   } keys %args ]};
-
 }
 
 

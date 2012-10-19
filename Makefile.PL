@@ -6,6 +6,8 @@ use 5.010;
 
 use ExtUtils::MakeMaker 6.30;
 
+use File::ShareDir::Install;
+install_share dist => "root";
 
 
 my %WriteMakefileArgs = (
@@ -19,29 +21,34 @@ my %WriteMakefileArgs = (
     "Test::WWW::Mechanize::Catalyst" => 0
   },
   "CONFIGURE_REQUIRES" => {
-    "ExtUtils::MakeMaker" => "6.30"
+    "ExtUtils::MakeMaker" => "6.30",
+    "File::ShareDir::Install" => "0.03"
   },
   "DISTNAME" => "Tapper-Reports-Web",
-  "EXE_FILES" => [],
+  "EXE_FILES" => [
+    "bin/tapper_reports_web_fastcgi_public.pl",
+    "bin/tapper_reports_web_fastcgi_live.pl",
+    "bin/tapper_reports_web_cgi.pl",
+    "bin/tapper_reports_web_fastcgi.pl",
+    "bin/tapper_reports_web_create.pl",
+    "bin/tapper_reports_web_server.pl",
+    "bin/tapper_reports_web_test.pl"
+  ],
   "LICENSE" => "open_source",
   "NAME" => "Tapper::Reports::Web",
   "PREREQ_PM" => {
-    "Authen::Simple::PAM" => 0,
     "Catalyst" => 0,
-    "Catalyst::Authentication::Credential::Authen::Simple" => 0,
     "Catalyst::Controller" => 0,
-    "Catalyst::Controller::BindLex" => 0,
     "Catalyst::Controller::HTML::FormFu" => 0,
     "Catalyst::Model::DBIC::Schema" => 0,
-    "Catalyst::Plugin::Authentication" => 0,
     "Catalyst::Plugin::ConfigLoader" => 0,
     "Catalyst::Plugin::Session" => 0,
     "Catalyst::Plugin::Session::State::Cookie" => 0,
     "Catalyst::Plugin::Session::Store::File" => 0,
     "Catalyst::Plugin::Static::Simple" => 0,
     "Catalyst::Runtime" => 0,
-    "Catalyst::View::Mason" => 0,
-    "Class::C3::Adopt::NEXT" => 0,
+    "Catalyst::ScriptRunner" => 0,
+    "Catalyst::View::HTML::Mason" => 0,
     "Cwd" => 0,
     "Data::DPath" => 0,
     "Data::Dumper" => 0,
@@ -55,15 +62,21 @@ my %WriteMakefileArgs = (
     "File::Copy::Recursive" => 0,
     "File::Find::Rule" => 0,
     "File::Path" => 0,
+    "File::ShareDir" => 0,
     "File::stat" => 0,
+    "FindBin" => 0,
+    "Getopt::Long" => 0,
     "HTML::FromANSI" => 0,
     "Hash::Merge" => 0,
     "Hash::Merge::Simple" => 0,
     "Module::Find" => "0.11",
     "Moose" => 0,
+    "Moose::Role" => 0,
     "Perl6::Junction" => 0,
+    "Pod::Usage" => 0,
     "Set::Intersection" => 0,
     "Tapper::Cmd::Precondition" => 0,
+    "Tapper::Cmd::Testplan" => 0,
     "Tapper::Cmd::Testrun" => 0,
     "Tapper::Config" => 0,
     "Tapper::Model" => 0,
@@ -73,13 +86,13 @@ my %WriteMakefileArgs = (
     "XML::Feed" => 0,
     "YAML" => 0,
     "YAML::Syck" => 0,
-    "base" => 0,
     "common::sense" => 0,
+    "namespace::autoclean" => 0,
     "parent" => 0,
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.0.4",
+  "VERSION" => "4.1.0",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -104,5 +117,10 @@ delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
 
 WriteMakefile(%WriteMakefileArgs);
 
+{
+package
+MY;
+use File::ShareDir::Install qw(postamble);
+}
 
 

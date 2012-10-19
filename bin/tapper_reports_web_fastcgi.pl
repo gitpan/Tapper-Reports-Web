@@ -1,13 +1,21 @@
 #!/usr/bin/env perl
+# PODNAME: tapper_reports_web_fastcgi.pl
+# ABSTRACT: Tapper - web gui start script - fastcgi
 
 use Catalyst::ScriptRunner;
 Catalyst::ScriptRunner->run('Tapper::Reports::Web', 'FastCGI');
 
 1;
 
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
-tapper_reports_web_fastcgi.pl - Catalyst FastCGI
+tapper_reports_web_fastcgi.pl - Tapper - web gui start script - fastcgi
 
 =head1 SYNOPSIS
 
@@ -30,11 +38,15 @@ tapper_reports_web_fastcgi.pl [options]
                  or empty string to disable
    -e --keeperr  send error messages to STDOUT, not
                  to the webserver
-   --proc_title  Set the process title (is possible)
+   --proc_title  Set the process title (if possible)
 
 =head1 DESCRIPTION
 
 Run a Catalyst application as fastcgi.
+
+=head1 NAME
+
+tapper_reports_web_fastcgi.pl - Catalyst FastCGI
 
 =head1 AUTHORS
 
@@ -45,4 +57,17 @@ Catalyst Contributors, see Catalyst.pm
 This library is free software. You can redistribute it and/or modify
 it under the same terms as Perl itself.
 
+=head1 AUTHOR
+
+AMD OSRC Tapper Team <tapper@amd64.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
+
+This is free software, licensed under:
+
+  The (two-clause) FreeBSD License
+
 =cut
+

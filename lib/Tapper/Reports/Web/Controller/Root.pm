@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Root::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Root::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Root::VERSION = '4.1.0';
 }
 
 use strict;

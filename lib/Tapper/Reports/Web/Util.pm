@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Util::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Util::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Util::VERSION = '4.1.0';
 }
 
 use Moose;
@@ -19,20 +19,21 @@ sub prepare_top_menu
         my ($self, $active) = @_;
         my $top_menu = [
                         {key => 'start',       text => 'Start',       uri => "/tapper/start/"},
-                        {key => 'testruns',    text => 'Testruns',    uri => "/tapper/testruns/days/2/"},
-                        {key => 'reports',     text => 'Reports',     uri => "/tapper/reports/days/2"},
-                        {key => 'testplans',   text => 'Testplans',   uri => "/tapper/testplan/"},
-                        {key => 'user',        text => 'Login',       uri => "/tapper/user/login"},
+                        {key => 'reports',     text => 'Reports',     uri => "/tapper/reports/days/1"},
+                        {key => 'testruns',    text => 'Testruns',    uri => "/tapper/testruns/days/1"},
+                        {key => 'testplans',   text => 'Testplans',   uri => "/tapper/testplan/days/2"},
                         {key => 'metareports', text => 'Metareports', uri => "/tapper/metareports/"},
                         {key => 'manual',      text => 'Manual',      uri => "/tapper/manual/"},
+                        {key => 'user',        text => 'Login',       uri => "/tapper/user/login"},
                        ];
 
         # Some keys may be singular with their actions being named in plural or vice versa. Unify this.
-        $active = lc($active);
-        (my $active_singular) = $active =~ m/^(.+)s$/;
-        (my $active_plural) = $active."s";
-
-        map {$_->{active} = 1 if $_->{key} eq any($active, $active_singular, $active_plural) } @$top_menu;
+        if ($active) {
+                $active = lc($active);
+                (my $active_singular) = ($active =~ m/^(.+)s$/) // '';
+                (my $active_plural)   = $active."s" // '';
+                foreach (@$top_menu) { $_->{active} = 1 if $_->{key} eq any($active, $active_singular, $active_plural) }
+        }
         return $top_menu;
 }
 

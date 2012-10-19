@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Metareports::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Metareports::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Metareports::VERSION = '4.1.0';
 }
 
 use strict;
@@ -14,6 +14,12 @@ use File::Find::Rule;
 use Tapper::Config;
 
 use 5.010;
+
+sub auto :Private
+{
+        my ( $self, $c ) = @_;
+        $c->forward('/tapper/metareports/prepare_navi');
+}
 
 
 sub index :Path :Args(0)
@@ -102,6 +108,20 @@ sub report_name : Chained('base') PathPart('') Args(3)
 }
 
 
+sub prepare_navi : Private
+{
+        my ( $self, $c ) = @_;
+
+        $c->stash->{navi} = [
+                 {
+                  title  => "Metareports",
+                  href => "/tapper/metareports/",
+                 },
+                ];
+
+}
+
+
 
 1;
 
@@ -117,6 +137,10 @@ Tapper::Reports::Web::Controller::Tapper::Metareports
 =head1 DESCRIPTION
 
 Catalyst Controller.
+
+=head2 prepare_navi
+
+Generate data structure that describes the navigation part.
 
 =head1 NAME
 

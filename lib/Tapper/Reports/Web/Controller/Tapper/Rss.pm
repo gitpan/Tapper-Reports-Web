@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Rss::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Rss::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Rss::VERSION = '4.1.0';
 }
 
 use XML::Feed;

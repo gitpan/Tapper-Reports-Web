@@ -3,15 +3,13 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Hardware::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Hardware::VERSION = '4.0.4';
+  $Tapper::Reports::Web::Controller::Tapper::Hardware::VERSION = '4.1.0';
 }
 
 use strict;
 use warnings;
 
-use parent 'Catalyst::Controller::BindLex';
-__PACKAGE__->config->{bindlex}{Param} = sub { $_[0]->req->params };
-__PACKAGE__->config->{unsafe_bindlex_ok} = 1;
+use parent 'Tapper::Reports::Web::Controller::Base';
 
 sub index :Path :Args(0)
 {
