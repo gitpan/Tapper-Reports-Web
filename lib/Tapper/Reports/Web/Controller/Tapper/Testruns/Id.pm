@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Testruns::Id;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Testruns::Id::VERSION = '4.1.1';
 }
 
 use 5.010;

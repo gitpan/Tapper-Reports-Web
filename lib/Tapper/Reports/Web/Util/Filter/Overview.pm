@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Util::Filter::Overview;
 BEGIN {
-  $Tapper::Reports::Web::Util::Filter::Overview::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Util::Filter::Overview::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Util::Filter::Overview::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Util::Filter::Overview::VERSION = '4.1.1';
 }
 
 

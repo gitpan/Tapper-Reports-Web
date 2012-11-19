@@ -1,11 +1,11 @@
 package Tapper::Reports::Web;
-# git description: v4.0.4-63-g47b6340
+# git description: v4.1.0-3-g02deedc
 
 BEGIN {
-  $Tapper::Reports::Web::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::VERSION = '4.1.0';
+  $Tapper::Reports::Web::VERSION = '4.1.1';
 }
 # ABSTRACT: Tapper - Frontend web application based on Catalyst
 

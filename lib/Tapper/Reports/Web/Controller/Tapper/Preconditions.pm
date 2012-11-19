@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Preconditions;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Preconditions::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Preconditions::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Preconditions::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Preconditions::VERSION = '4.1.1';
 }
 
 use strict;

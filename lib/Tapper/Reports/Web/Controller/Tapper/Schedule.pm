@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Schedule;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Schedule::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Schedule::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Schedule::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Schedule::VERSION = '4.1.1';
 }
 
 use strict;

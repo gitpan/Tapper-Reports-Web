@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Util::Testrun;
 BEGIN {
-  $Tapper::Reports::Web::Util::Testrun::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Util::Testrun::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Util::Testrun::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Util::Testrun::VERSION = '4.1.1';
 }
 
 use Moose;

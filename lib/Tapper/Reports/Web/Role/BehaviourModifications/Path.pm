@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Role::BehaviourModifications::Path;
 BEGIN {
-  $Tapper::Reports::Web::Role::BehaviourModifications::Path::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Role::BehaviourModifications::Path::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Role::BehaviourModifications::Path::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Role::BehaviourModifications::Path::VERSION = '4.1.1';
 }
 use Moose::Role;
 

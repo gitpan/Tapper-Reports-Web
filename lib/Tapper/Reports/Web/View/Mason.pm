@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::View::Mason;
 BEGIN {
-  $Tapper::Reports::Web::View::Mason::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::View::Mason::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::View::Mason::VERSION = '4.1.0';
+  $Tapper::Reports::Web::View::Mason::VERSION = '4.1.1';
 }
 
 use Moose;

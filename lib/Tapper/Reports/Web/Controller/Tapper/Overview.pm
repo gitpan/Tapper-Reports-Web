@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Overview;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Overview::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Overview::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Overview::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Overview::VERSION = '4.1.1';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';

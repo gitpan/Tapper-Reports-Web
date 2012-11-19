@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Rss;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Rss::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Rss::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Rss::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Rss::VERSION = '4.1.1';
 }
 
 use XML::Feed;

@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Util::Filter::Testplan;
 BEGIN {
-  $Tapper::Reports::Web::Util::Filter::Testplan::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Util::Filter::Testplan::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Util::Filter::Testplan::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Util::Filter::Testplan::VERSION = '4.1.1';
 }
 
 

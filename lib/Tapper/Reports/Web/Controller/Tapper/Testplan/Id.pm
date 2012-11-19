@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Testplan::Id;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Testplan::Id::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Testplan::Id::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Testplan::Id::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Testplan::Id::VERSION = '4.1.1';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';

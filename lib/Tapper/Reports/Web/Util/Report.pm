@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Util::Report;
 BEGIN {
-  $Tapper::Reports::Web::Util::Report::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Util::Report::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Util::Report::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Util::Report::VERSION = '4.1.1';
 }
 
 use Moose;

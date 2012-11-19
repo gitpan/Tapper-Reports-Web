@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Model::TestrunDB;
 BEGIN {
-  $Tapper::Reports::Web::Model::TestrunDB::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Model::TestrunDB::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Model::TestrunDB::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Model::TestrunDB::VERSION = '4.1.1';
 }
 
 use strict;

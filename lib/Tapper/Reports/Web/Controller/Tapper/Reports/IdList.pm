@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper::Reports::IdList;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::IdList::VERSION = '4.1.1';
 }
 
 use 5.010;

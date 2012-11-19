@@ -1,9 +1,9 @@
 package Tapper::Reports::Web::Controller::Tapper;
 BEGIN {
-  $Tapper::Reports::Web::Controller::Tapper::AUTHORITY = 'cpan:AMD';
+  $Tapper::Reports::Web::Controller::Tapper::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::VERSION = '4.1.0';
+  $Tapper::Reports::Web::Controller::Tapper::VERSION = '4.1.1';
 }
 
 use strict;
