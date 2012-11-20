@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Start::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Start::VERSION = '4.1.1';
+  $Tapper::Reports::Web::Controller::Tapper::Start::VERSION = '4.1.2';
 }
 
 use parent 'Tapper::Reports::Web::Controller::Base';

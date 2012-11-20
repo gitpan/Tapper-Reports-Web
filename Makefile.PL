@@ -75,6 +75,7 @@ my %WriteMakefileArgs = (
     "Perl6::Junction" => 0,
     "Pod::Usage" => 0,
     "Set::Intersection" => 0,
+    "TAP::Formatter::HTML" => 0,
     "Tapper::Cmd::Precondition" => 0,
     "Tapper::Cmd::Testplan" => 0,
     "Tapper::Cmd::Testrun" => 0,
@@ -92,7 +93,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.1.1",
+  "VERSION" => "4.1.2",
   "test" => {
     "TESTS" => "t/*.t"
   }

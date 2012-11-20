@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::View::Mason::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::View::Mason::VERSION = '4.1.1';
+  $Tapper::Reports::Web::View::Mason::VERSION = '4.1.2';
 }
 
 use Moose;

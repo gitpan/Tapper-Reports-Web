@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Role::BehaviourModifications::Path::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Role::BehaviourModifications::Path::VERSION = '4.1.1';
+  $Tapper::Reports::Web::Role::BehaviourModifications::Path::VERSION = '4.1.2';
 }
 use Moose::Role;
 

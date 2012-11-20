@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Controller::Tapper::Reports::Id::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Controller::Tapper::Reports::Id::VERSION = '4.1.1';
+  $Tapper::Reports::Web::Controller::Tapper::Reports::Id::VERSION = '4.1.2';
 }
 
 use 5.010;

@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Reports::Web::Model::ReportsDB::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Reports::Web::Model::ReportsDB::VERSION = '4.1.1';
+  $Tapper::Reports::Web::Model::ReportsDB::VERSION = '4.1.2';
 }
 
 use strict;

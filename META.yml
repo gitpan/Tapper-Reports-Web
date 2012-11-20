@@ -61,6 +61,7 @@ requires:
   Perl6::Junction: 0
   Pod::Usage: 0
   Set::Intersection: 0
+  TAP::Formatter::HTML: 0
   Tapper::Cmd::Precondition: 0
   Tapper::Cmd::Testplan: 0
   Tapper::Cmd::Testrun: 0
@@ -82,7 +83,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=Tapper-Reports-Web
   homepage: http://metacpan.org/release/Tapper-Reports-Web
   repository: git://github.com/tapper/Tapper-Reports-Web.git
-version: 4.1.1
+version: 4.1.2
 x_Dist_Zilla:
   plugins:
     -
